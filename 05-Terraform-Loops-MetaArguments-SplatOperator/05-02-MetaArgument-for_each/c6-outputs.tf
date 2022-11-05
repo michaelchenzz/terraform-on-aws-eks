@@ -13,12 +13,12 @@ output "instance_publicdns" {
   description = "EC2 Instance Public DNS"
   #value = aws_instance.myec2vm[*].public_dns  # Legacy Splat
   #value = aws_instance.myec2vm[*].public_dns  # Latest Splat
-  value = toset([for instance in aws_instance.myec2vm : instance.public_dns])
+  value = toset([for instance in aws_instance.myec2vm : instance.public_dns]) # the output value of for_each block must use for loop
 }
 
 # EC2 Instance Public DNS with TOMAP
 output "instance_publicdns2" {
-  value = tomap({ for az, instance in aws_instance.myec2vm : az => instance.public_dns })
+  value = tomap({ for az, instance in aws_instance.myec2vm : az => instance.public_dns }) ### IMPORTANT: "az" is in for_each, but "instance" is in aws_instance resource
 }
 
 
